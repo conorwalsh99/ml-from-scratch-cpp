@@ -19,4 +19,7 @@ class KNN{
             const std::vector<double>& y_arg,
             int k_arg
         );
+
+        double predict(const std::vector<double>& X_predict) const;
+        std::vector<double> get_neighbours(const std::vector<double>& X_predict) const;
 };
