@@ -25,18 +25,70 @@ KNN::KNN(
             std::cout << "X must contain data" << std::endl;
             return;                    
         }else{
-            p = X.size() / n;
+            if (X.size() % n > 0){
+                std::cout << "n must be a positive integer" << std::endl;
+                return;
+            }else{
+                p = X.size() / n;
+            }            
         }                
+    }
+
+    if (k > n){
+        k = n;
+        std::cout << "k cannot be greater than n. Reassigning k the value: " << n << std::endl;
     }
 }
 
+int KNN::get_size_X_predict(const std::vector<double>& X_predict) const {
+    if (X_predict.size() % p > 0){
+        std::cout << "Input not of correct shape. X_predict.size() must be a multiple of p." << std::endl;
+        return;
+    }else{
+        int n_X_predict = X_predict.size() / p; 
+        return n_X_predict;
+    }    
+}
 
-std::vector<double> KNN::get_neighbours(const std::vector<double>& X_predict) const {
+std::vector<double> KNN::get_neighbours_matrix(const std::vector<double>& X_predict) const {
     return;
 }
 
+
+std::vector<double> KNN::get_neighbours_vector(const std::vector<double>& X_predict) const {
+    return;
+}
+
+
 double KNN::predict(const std::vector<double>& X_predict) const {
-    return;   
+    // Step 1. validate X_predict size
+    int n_X_predict = get_size_X_predict(X_predict);
+
+    // Step 2. Create neighbours matrix (n_X_predict, k) 
+    // contains a separate vector of size k for each point in X_predict
+    // Each point in this vector is the index of a neighbour
+    // Initialise with default of -1 as this is not a valid neighbour index. - must validate indices before accessing them.
+    std::vector<int> neighbours_matrix(n_X_predict * k, -1);
+
+    // BEGIN GET_NEIGHBOURS_MATRIX
+    // Step 3. Loop through in X_predict:
+        // isolate given point
+        // BEGIN GET_NEIGHBOURS_VECTOR
+        // Create distances vector for this point (n_X_input, )
+        // Loop through X_input:
+            // Isolate given point
+            // Calculate distance between two points
+            // Add to distances matrix
+        // Create empty neighbours vector (K, )
+        // Loop through distances matrix (K times):
+            // find smallest distance each time and insert index at given position in neighbours
+        // END GET_NEIGHBOURS_VECTOR
+        // Add neighbours vector to outer neighbours_matrix
+    // END GET_NEIGHBOURS_MATRIX
+    // For each neighbour, get their response in y
+    // For each point in X_predict, loop through corresponding neighbours in outer neighbour_matrix and caluclate mean of responses
+
+    return;
 }
 
 // Now let's think about how we can do this
