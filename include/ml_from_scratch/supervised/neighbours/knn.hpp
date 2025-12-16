@@ -24,4 +24,5 @@ class KNN{
         std::vector<double> get_neighbours_matrix(const std::vector<double>& X_predict) const;
         std::vector<double> get_neighbours_vector(const std::vector<double>& X_predict) const;
         int get_size_X_predict(const std::vector<double>& X) const;
+        double calculate_euclidean_distance(const std::vector<double>& point_1, const std::vector<double>& point_2) const;
 };
