@@ -1,6 +1,7 @@
 #include "knn.hpp"
 #include <iostream>
 #include <vector>
+#include <limits>
 
 
 KNN::KNN(
@@ -64,94 +65,94 @@ double KNN::calculate_euclidean_distance(const std::vector<double>& point_1, con
     return distance;
 }
 
-std::vector<double> KNN::get_neighbours_matrix(const std::vector<double>& X_predict) const {
-    return;
-}
 
+std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
+    // Create distances vector to store distance between x and each point in the training data -> will be of size n
+    std::vector<double> neighbour_distances(n, -1);
 
-std::vector<double> KNN::get_neighbours_vector(const std::vector<double>& X_predict) const {
-    return;
-}
-
-
-double KNN::predict(const std::vector<double>& X_predict) const {
-    // Step 1. validate X_predict size
-    int n_X_predict = get_size_X_predict(X_predict);
-
-    // Step 2. Create neighbours matrix (n_X_predict, k) 
-    // contains a separate vector of size k for each point in X_predict
-    // Each point in this vector is the index of a neighbour
-    // Initialise with default of -1 as this is not a valid neighbour index. - must validate indices before accessing them.
-    std::vector<int> nearest_neighbours_matrix(n_X_predict * k, -1);
-
-    // BEGIN GET_NEIGHBOURS_MATRIX 
-    // Loop through X_predict
-    for (int i {0}; i < n_X_predict; i++){ 
-        // isolate current point
-        int start_index = i * p;        
-        std::vector<double> point_in_X_predict(p, -1); // fill with -1 as dummy data for now         
-        for (int j{0}; j < p; j++){
-            point_in_X_predict[j] = X[start_index + j]; 
+    // Loop through neighbours (training data)
+    for (int i {0}; i < n*p; i++){
+        // Isolate given point
+        int start_index = i*p;
+        std::vector<double> neighbour(p, -1);
+        for (int j{0}; j<p; j++){
+            neighbour[j] = X[start_index + j];
         }
-        // BEGIN GET_NEIGHBOURS_VECTOR
-        // Create distances vector for this point (n, )
-        std::vector<double> neighbour_distances(n, -1);
-        // Loop through X_input
-        for (int i_ {0}; i_ < n*p; i_++){
-            // Isolate given point
-            int start_index = i_*p;
-            std::vector<double> point_in_X(p, -1);
-            for (int j_{0}; j_<p; j_++){
-                point_in_X[j_] = X[start_index + j_];
-            }
-            // Calculate distance between two points
-            double distance_between_points = calculate_euclidean_distance(point_in_X_predict, point_in_X);
-            // Add to distances matrix
-            neighbour_distances[i_] = distance_between_points;
-        }
-        // Create empty nearest neighbours vector (K, )
-        std::vector<int> nearest_neighbours(k, -1);
-        // Loop through distances matrix (K times):
-        // find smallest distance each time and insert index at given position in neighbours
-        int next_nearest_neighbour {0}; // start with first index as guess (doesn't really matter)
-        double next_smallest_distance {neighbour_distances[next_nearest_neighbour]};
+        // Calculate distance between the two points
+        double distance_to_neighbour = calculate_euclidean_distance(x, neighbour);
+        neighbour_distances[i] = distance_to_neighbour;
+    }
+
+    // Create vector to store nearest neighbours -> size k
+    std::vector<int> nearest_neighbours(k, -1);
+
+    // Loop through distances k times:
+        // find smallest distance each time (that of next nearest neighbour)
+        // get corresponding index
+        // insert the index into nearest_neighbours vector at given position
         // Loop through the neighbours
         // Each time, check if neighbour is a valid candidate (not already in nearest_neighbours)
         // If so, compare distance to next_smallest_distance
-        // If smaller, set next_smallest_distance to this distance and next_nearest_neighbour to this neighbour
-        // Add end of loop, add next_nearest_neighbour to nearest_neighbours vector, and invalidate it from the next round of checks (by setting value in neighbour_distances to -1) 
-        for (int nearest_neighbour_index{-1}; nearest_neighbour_index < k+1; nearest_neighbour_index++){
+        // If smaller, set next_smallest_distance to this distance and next_nearest_index to this neighbour
+        // Add end of loop, add next_nearest_index to nearest_neighbours vector, and invalidate it from the next round of checks (by setting value in neighbour_distances to -1) 
         // at the beginning of each outer loop, add the nearest neighbour from the previous inner loop to the nearest_neighbours vector
         // and set its distance to -1 in neighbour_distances to invalidate it from future checks
-        // start outer loop index from -1 and to allow first inner loop to run and only begin adding to neasrest_neighbours vector after this run
-        // similarly, enbd outer loop at k+1 to allow final neighbour from final inner loop to be added to nearest_neighbours 
-            if (-1 < nearest_neighbour_index < k+1){ // means it is not our first or last loop -> any other loop should see us adding neighbours
-                nearest_neighbours[nearest_neighbour_index] = next_nearest_neighbour; // 
-                neighbour_distances[next_nearest_neighbour] = -1; // invalidate this neighbour from future rounds
-            }
-            for (int neighbour_index{0}; neighbour_index < n; neighbour_index++){                
-                double neighbour_distance = neighbour_distances[neighbour_index];
-                if (neighbour_distance == -1){ // already in nearest_neighbours
-                    continue;
-                }else{
-                    if (neighbour_distance <= next_smallest_distance){
-                        next_smallest_distance = neighbour_distance;
-                        next_nearest_neighbour = neighbour_index;
-                    }
+        // start outer loop index from -1 so that we have the nearest neighbour to add to nearest_neighbours vector by the time the iter is at 0
+        // similarly, end outer loop at k+1 to allow final neighbour from final inner loop to be added to nearest_neighbours 
+    int next_nearest_index {-1}; 
+    double next_smallest_distance {std::numeric_limits<double>::infinity()};
+    for (int nearest_neighbour_position{-1}; nearest_neighbour_position < k+1; nearest_neighbour_position++){
+        if (-1 < nearest_neighbour_position < k+1){ // means it is not our first or last loop -> any other loop should see us adding neighbours
+            nearest_neighbours[nearest_neighbour_position] = next_nearest_index; // 
+            neighbour_distances[next_nearest_index] = -1; // invalidate this neighbour from future rounds when checking for next nearest neighbour
+            next_smallest_distance = std::numeric_limits<double>::infinity(); // reset next_smallest_distance
+        }
+        for (int neighbour_index{0}; neighbour_index < n; neighbour_index++){                
+            double neighbour_distance = neighbour_distances[neighbour_index];
+            if (neighbour_distance == -1){ // already in nearest_neighbours
+                continue;
+            }else{
+                if (neighbour_distance <= next_smallest_distance){
+                    next_smallest_distance = neighbour_distance;
+                    next_nearest_index = neighbour_index;
                 }
             }
-        }  // END GET_NEIGHBOURS_VECTOR
-        // add nearest_neighbours vector to nearest_neighbour_matrix
-        for (int nearest_neighbour_index{0}; nearest_neighbour_index < k; nearest_neighbour_index++){
-            // fill the matrix with the given vector in its corresponding position
-            nearest_neighbours_matrix[i*k + nearest_neighbour_index] = nearest_neighbours[nearest_neighbour_index]; 
-        }        
-    } // END GET_NEIGHBOURS_MATRIX
-    
-    // For each neighbour, get their response in y
-    // For each point in X_predict, loop through corresponding neighbours in outer neighbour_matrix and calculate mean of responses
+        }
+    }  // END GET_NEIGHBOURS_VECTOR
+    return nearest_neighbours;
+}
 
-    return;
+
+std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
+    // Step 1. validate X_predict size
+    int n_X_predict = get_size_X_predict(X_predict);
+
+    // Step 2. Create predicitons vector (n_X_predict) 
+    // Each point in this vector is the prediction for the corresponding entry in X_predict
+    // Initialise with default of -1 as to signify that a prediction has nnot yet been made - must validate indices before accessing them.
+    std::vector<double> predictions(n_X_predict, -1);
+
+    // Loop through X_predict
+    for (int i {0}; i < n_X_predict; i++){ 
+        // isolate point_i
+        int start_index = i * p;        
+        std::vector<double> x_i(p, -1); // fill with -1 as dummy data for now         
+        for (int j{0}; j < p; j++){
+            x_i[j] = X_predict[start_index + j];
+        }
+        // BEGIN GET_NEIGHBOURS_VECTOR
+        std::vector<int> nearest_neighbours = get_neighbours(x_i);
+        // at this point nearest_neighbours contains the indices of the k nearest neighbours of point i we are looping through             
+        // loop through nearest_neighbours and get response variable from y for each neighbour
+        // calculate mean response and add to predictions vector at index i
+        double prediction_i {0};
+        for (int index{0}; index < k; index++){
+           prediction_i += y[nearest_neighbours[index]];
+        }
+        prediction_i /= k;
+        predictions[i] = prediction_i;
+    }     
+    return predictions;
 }
 
 // Now let's think about how we can do this
