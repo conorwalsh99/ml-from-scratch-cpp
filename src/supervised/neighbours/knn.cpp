@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <cmath>
 
 
 KNN::KNN(
@@ -54,15 +55,20 @@ int KNN::get_size_X_predict(const std::vector<double>& X_predict) const {
 double KNN::calculate_euclidean_distance(const std::vector<double>& point_1, const std::vector<double>& point_2) const {
     int size_point_1 = point_1.size(); 
     int size_point_2 = point_2.size();
-    double distance = 0;
-    for (int index_1 {0}; index_1 < size_point_1; index_1++){
-        for (int index_2 {0}; index_2 < size_point_2; index_2++){
-            double point_1_value = point_1[index_1];
-            double point_2_value = point_2[index_2]; 
-            distance += std::abs(point_1_value - point_2_value);
+    if (size_point_1 != size_point_2){
+        std::cout << "Points must have same dimensionality to calculate Euclidean distance" << std::endl;
+        return; // figure out how to throw errors properly
+    }else{
+        double sum_squared_differences = 0;
+        for (int dim {0}; dim < size_point_1; dim++){            
+            double point_1_value = point_1[dim];
+            double point_2_value = point_2[dim]; 
+            double difference = point_1_value - point_2_value;
+            sum_squared_differences += difference * difference;
         }
+        double distance = std::sqrt(sum_squared_differences);
+        return distance;
     }
-    return distance;
 }
 
 
