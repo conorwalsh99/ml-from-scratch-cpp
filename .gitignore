@@ -39,3 +39,9 @@
 
 # debug information files
 *.dwo
+
+# local
+.vscode
+.env
+ideas.md
+TODO.md
