@@ -1,8 +1,9 @@
-#include "knn.hpp"
+#include "ml_from_scratch/supervised/neighbours/knn.hpp"
 #include <iostream>
 #include <vector>
 #include <limits>
 #include <cmath>
+#include <stdexcept>
 
 
 KNN::KNN(
@@ -43,9 +44,8 @@ KNN::KNN(
 }
 
 int KNN::get_size_X_predict(const std::vector<double>& X_predict) const {
-    if (X_predict.size() % p > 0){
-        std::cout << "Input not of correct shape. X_predict.size() must be a multiple of p." << std::endl;
-        return;
+    if (X_predict.size() % p > 0){         
+        throw std::invalid_argument("Input not of correct shape. X_predict.size() must be a multiple of p.");
     }else{
         int n_X_predict = X_predict.size() / p; 
         return n_X_predict;
@@ -56,8 +56,7 @@ double KNN::calculate_euclidean_distance(const std::vector<double>& point_1, con
     int size_point_1 = point_1.size(); 
     int size_point_2 = point_2.size();
     if (size_point_1 != size_point_2){
-        std::cout << "Points must have same dimensionality to calculate Euclidean distance" << std::endl;
-        return; // figure out how to throw errors properly
+        throw std::invalid_argument("Points must have same dimensionality to calculate Euclidean distance");
     }else{
         double sum_squared_differences = 0;
         for (int dim {0}; dim < size_point_1; dim++){            
