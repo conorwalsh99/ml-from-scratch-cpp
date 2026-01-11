@@ -106,12 +106,7 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
         // similarly, end outer loop at k+1 to allow final neighbour from final inner loop to be added to nearest_neighbours 
     int next_nearest_index {-1}; 
     double next_smallest_distance {std::numeric_limits<double>::infinity()};
-    for (int nearest_neighbour_position{-1}; nearest_neighbour_position < k+1; nearest_neighbour_position++){
-        if (-1 < nearest_neighbour_position < k+1){ // means it is not our first or last loop -> any other loop should see us adding neighbours
-            nearest_neighbours[nearest_neighbour_position] = next_nearest_index; // 
-            neighbour_distances[next_nearest_index] = -1; // invalidate this neighbour from future rounds when checking for next nearest neighbour
-            next_smallest_distance = std::numeric_limits<double>::infinity(); // reset next_smallest_distance
-        }
+    for (int nearest_neighbour_position{0}; nearest_neighbour_position < k; nearest_neighbour_position++){
         for (int neighbour_index{0}; neighbour_index < n; neighbour_index++){                
             double neighbour_distance = neighbour_distances[neighbour_index];
             if (neighbour_distance == -1){ // already in nearest_neighbours
@@ -123,6 +118,9 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
                 }
             }
         }
+        nearest_neighbours[nearest_neighbour_position] = next_nearest_index; // 
+        neighbour_distances[next_nearest_index] = -1; // invalidate this neighbour from future rounds when checking for next nearest neighbour
+        next_smallest_distance = std::numeric_limits<double>::infinity(); // reset next_smallest_distance
     }  // END GET_NEIGHBOURS_VECTOR
     return nearest_neighbours;
 }
@@ -134,17 +132,17 @@ std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
 
     // Step 2. Create predicitons vector (n_X_predict) 
     // Each point in this vector is the prediction for the corresponding entry in X_predict
-    // Initialise with default of -1 as to signify that a prediction has nnot yet been made - must validate indices before accessing them.
+    // Initialise with default of -1 as to signify that a prediction has nnot yet been made - must validate indices before accessing them.    
     std::vector<double> predictions(n_X_predict, -1);
 
-    // Loop through X_predict
+    // Loop through X_predict   
     for (int i {0}; i < n_X_predict; i++){ 
         // isolate point_i
         int start_index = i * p;        
         std::vector<double> x_i(p, -1); // fill with -1 as dummy data for now         
         for (int j{0}; j < p; j++){
             x_i[j] = X_predict[start_index + j];
-        }
+        }       
         // BEGIN GET_NEIGHBOURS_VECTOR
         std::vector<int> nearest_neighbours = get_neighbours(x_i);
         // at this point nearest_neighbours contains the indices of the k nearest neighbours of point i we are looping through             
