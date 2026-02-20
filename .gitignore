@@ -1,52 +1,69 @@
-# Prerequisites
-*.d
+# =====================================
+# CMake build artifacts
+# =====================================
+build/                      # entire build directory
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+CTestTestfile.cmake
+Testing/
 
-# Compiled Object files
-*.slo
-*.lo
+# =====================================
+# Compiled object files
+# =====================================
 *.o
 *.obj
+*.lo
+*.slo
 
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-*.dSYM
-
-# Compiled Dynamic libraries
+# =====================================
+# Compiled static/dynamic libraries
+# =====================================
+*.a
+*.lib
+*.lai
 *.so
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
+# =====================================
 # Executables
+# =====================================
 *.exe
 *.out
 *.app
+examples/knn_examples      # your example binaries
+tests/*_test               # optional: if you build test binaries in tests/
 
-# debug information files
+# =====================================
+# Debugger / profiling / IDE / OS files
+# =====================================
+*.dSYM
+*.pdb
 *.dwo
-
-# local
-.vscode
+.vscode/
+.idea/
+.DS_Store
 .env
-ideas.md
-TODO.md
 
-# compiled executables
-examples/knn_examples
-build/
+# =====================================
+# Precompiled headers
+# =====================================
+*.gch
+*.pch
+
+# =====================================
+# GoogleTest / external libraries
+# =====================================
+external/googletest/build/   # ignore if you include GTest as a subdirectory
+external/googletest/CMakeFiles/
+external/googletest/CMakeCache.txt
+
+# =====================================
+# Documentation / miscellaneous
+# =====================================
+TODO.md
+ideas.md
+*.log
