@@ -3,7 +3,7 @@
 #include <vector>
 
 
-int main(int argc, char **argv){
+int main(){
     
     std::vector<double> X_train {
         1.0, 2.0, 
@@ -24,5 +24,7 @@ int main(int argc, char **argv){
     std::cout << "First prediction (should be 10): " << y_predict[0] << std::endl;
     std::cout << "Second prediction (should be 10): " << y_predict[1] << std::endl;
     std::cout << "Third prediction (should be 100): " << y_predict[2] << std::endl;
+
+
     return 0;
 }

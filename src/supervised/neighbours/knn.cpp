@@ -1,4 +1,5 @@
 #include "ml_from_scratch/supervised/neighbours/knn.hpp"
+#include "ml_from_scratch/core/distance.hpp"
 #include <iostream>
 #include <vector>
 #include <limits>
@@ -50,24 +51,6 @@ int KNN::get_size_X_predict(const std::vector<double>& X_predict) const {
         int n_X_predict = X_predict.size() / p; 
         return n_X_predict;
     }    
-}
-
-double KNN::calculate_euclidean_distance(const std::vector<double>& point_1, const std::vector<double>& point_2) const {
-    int size_point_1 = point_1.size(); 
-    int size_point_2 = point_2.size();
-    if (size_point_1 != size_point_2){
-        throw std::invalid_argument("Points must have same dimensionality to calculate Euclidean distance");
-    }else{
-        double sum_squared_differences = 0;
-        for (int dim {0}; dim < size_point_1; dim++){            
-            double point_1_value = point_1[dim];
-            double point_2_value = point_2[dim]; 
-            double difference = point_1_value - point_2_value;
-            sum_squared_differences += difference * difference;
-        }
-        double distance = std::sqrt(sum_squared_differences);
-        return distance;
-    }
 }
 
 
