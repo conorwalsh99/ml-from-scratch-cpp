@@ -59,7 +59,7 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
     std::vector<double> neighbour_distances(n, -1);
 
     // Loop through neighbours (training data)
-    for (int i {0}; i < n*p; i++){
+    for (int i {0}; i < n; i++){// here is our bug. When we used n*p as lenght of lop, this is element-ise indexing rather than point-wise
         // Isolate given point
         int start_index = i*p;
         std::vector<double> neighbour(p, -1);
@@ -68,7 +68,7 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
         }
         // Calculate distance between the two points
         double distance_to_neighbour = calculate_euclidean_distance(x, neighbour);
-        neighbour_distances[i] = distance_to_neighbour;
+        neighbour_distances[i] = distance_to_neighbour; 
     }
 
     // Create vector to store nearest neighbours -> size k
@@ -111,11 +111,11 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
 
 std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
     // Step 1. validate X_predict size
-    int n_X_predict = get_size_X_predict(X_predict);
+    int n_X_predict = get_size_X_predict(X_predict);    
 
-    // Step 2. Create predicitons vector (n_X_predict) 
+    // Step 2. Create predictions vector (n_X_predict) 
     // Each point in this vector is the prediction for the corresponding entry in X_predict
-    // Initialise with default of -1 as to signify that a prediction has nnot yet been made - must validate indices before accessing them.    
+    // Initialise with default of -1 as to signify that a prediction has not yet been made - must validate indices before accessing them.    
     std::vector<double> predictions(n_X_predict, -1);
 
     // Loop through X_predict   
@@ -125,7 +125,7 @@ std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
         std::vector<double> x_i(p, -1); // fill with -1 as dummy data for now         
         for (int j{0}; j < p; j++){
             x_i[j] = X_predict[start_index + j];
-        }       
+        }        
         // BEGIN GET_NEIGHBOURS_VECTOR
         std::vector<int> nearest_neighbours = get_neighbours(x_i);
         // at this point nearest_neighbours contains the indices of the k nearest neighbours of point i we are looping through             

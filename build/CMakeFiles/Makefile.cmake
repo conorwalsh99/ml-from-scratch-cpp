@@ -87,6 +87,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/supervised.dir/DependInfo.cmake"
   "CMakeFiles/knn_example.dir/DependInfo.cmake"
   "CMakeFiles/test_distance.dir/DependInfo.cmake"
+  "CMakeFiles/test_knn.dir/DependInfo.cmake"
   "external/googletest/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
   "external/googletest/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake"
   "external/googletest/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"

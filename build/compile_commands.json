@@ -24,6 +24,12 @@
   "output": "CMakeFiles/test_distance.dir/tests/core/test_distance.cpp.o"
 },
 {
+  "directory": "/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15  -I/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/include -isystem /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googletest/include -isystem /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googletest -g -std=c++20 -arch arm64 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles/test_knn.dir/tests/supervised/neighbours/test_knn.cpp.o -c /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/tests/supervised/neighbours/test_knn.cpp",
+  "file": "/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/tests/supervised/neighbours/test_knn.cpp",
+  "output": "CMakeFiles/test_knn.dir/tests/supervised/neighbours/test_knn.cpp.o"
+},
+{
   "directory": "/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/external/googletest/googlemock",
   "command": "/opt/homebrew/bin/aarch64-apple-darwin24-g++-15  -I/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googlemock/include -I/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googlemock -isystem /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googletest/include -isystem /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googletest -g -std=c++20 -arch arm64 -Wall -Wshadow -Wundef -Wno-error=dangling-else -DGTEST_HAS_PTHREAD=1 -fexceptions -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wall -Wextra -Wpedantic -Werror -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googlemock/src/gmock-all.cc",
   "file": "/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/external/googletest/googlemock/src/gmock-all.cc",

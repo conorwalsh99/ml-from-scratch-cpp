@@ -2,6 +2,7 @@
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/supervised.dir
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/knn_example.dir
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/test_distance.dir
+/Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/test_knn.dir
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/test.dir
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/edit_cache.dir
 /Users/conorwalsh/Desktop/portfolio/projects/ml-from-scratch-cpp/build/CMakeFiles/rebuild_cache.dir

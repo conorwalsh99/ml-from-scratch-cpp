@@ -59,17 +59,30 @@ target_link_libraries(knn_example
 # -----------------------------
 enable_testing()
 
-# Add GoogleTest as subdirectory (builds for your current architecture automatically)
 add_subdirectory(external/googletest)
 
+# Distance tests
 add_executable(test_distance
     tests/core/test_distance.cpp
 )
 
 target_link_libraries(test_distance
-    PRIVATE core gtest gtest_main
+    PRIVATE core
+            GTest::gtest
+            GTest::gtest_main
 )
 
-# gtest subdirectory automatically sets include paths, no warning
-# Register with CTest
 add_test(NAME distance_tests COMMAND test_distance)
+
+# KNN tests
+add_executable(test_knn
+    tests/supervised/neighbours/test_knn.cpp
+)
+
+target_link_libraries(test_knn
+    PRIVATE supervised
+            GTest::gtest
+            GTest::gtest_main
+)
+
+add_test(NAME knn_tests COMMAND test_knn)

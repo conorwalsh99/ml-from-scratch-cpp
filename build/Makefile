@@ -224,6 +224,19 @@ test_distance/fast:
 .PHONY : test_distance/fast
 
 #=============================================================================
+# Target rules for targets named test_knn
+
+# Build rule for target.
+test_knn: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_knn
+.PHONY : test_knn
+
+# fast build rule for target.
+test_knn/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_knn.dir/build.make CMakeFiles/test_knn.dir/build
+.PHONY : test_knn/fast
+
+#=============================================================================
 # Target rules for targets named gmock
 
 # Build rule for target.
@@ -371,6 +384,30 @@ tests/core/test_distance.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_distance.dir/build.make CMakeFiles/test_distance.dir/tests/core/test_distance.cpp.s
 .PHONY : tests/core/test_distance.cpp.s
 
+tests/supervised/neighbours/test_knn.o: tests/supervised/neighbours/test_knn.cpp.o
+.PHONY : tests/supervised/neighbours/test_knn.o
+
+# target to build an object file
+tests/supervised/neighbours/test_knn.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_knn.dir/build.make CMakeFiles/test_knn.dir/tests/supervised/neighbours/test_knn.cpp.o
+.PHONY : tests/supervised/neighbours/test_knn.cpp.o
+
+tests/supervised/neighbours/test_knn.i: tests/supervised/neighbours/test_knn.cpp.i
+.PHONY : tests/supervised/neighbours/test_knn.i
+
+# target to preprocess a source file
+tests/supervised/neighbours/test_knn.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_knn.dir/build.make CMakeFiles/test_knn.dir/tests/supervised/neighbours/test_knn.cpp.i
+.PHONY : tests/supervised/neighbours/test_knn.cpp.i
+
+tests/supervised/neighbours/test_knn.s: tests/supervised/neighbours/test_knn.cpp.s
+.PHONY : tests/supervised/neighbours/test_knn.s
+
+# target to generate assembly for a file
+tests/supervised/neighbours/test_knn.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_knn.dir/build.make CMakeFiles/test_knn.dir/tests/supervised/neighbours/test_knn.cpp.s
+.PHONY : tests/supervised/neighbours/test_knn.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -392,6 +429,7 @@ help:
 	@echo "... knn_example"
 	@echo "... supervised"
 	@echo "... test_distance"
+	@echo "... test_knn"
 	@echo "... examples/knn_examples.o"
 	@echo "... examples/knn_examples.i"
 	@echo "... examples/knn_examples.s"
@@ -404,6 +442,9 @@ help:
 	@echo "... tests/core/test_distance.o"
 	@echo "... tests/core/test_distance.i"
 	@echo "... tests/core/test_distance.s"
+	@echo "... tests/supervised/neighbours/test_knn.o"
+	@echo "... tests/supervised/neighbours/test_knn.i"
+	@echo "... tests/supervised/neighbours/test_knn.s"
 .PHONY : help
 
 
