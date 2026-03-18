@@ -10,28 +10,34 @@
 KNN::KNN(
     const std::vector<double>& X_input,
     const std::vector<double>& y_input,
-    int k_input
+    int k_input, 
+    std::string mode_input
 ){
     k = k_input;
     X = X_input;
     y = y_input;
+    mode = mode_input;
     n = y.size();
 
-    // TODO 
-    // Improve these validity checks -> ensure k <= n
-    // Maybe raise error to halt program if invalid input given
-
+    if (mode != "regression"){
+        if(mode != "classification"){
+        throw std::invalid_argument("Mode must be either 'regression' or 'classification'.");
+        }else{
+            for(int i{0}; i<n; i++){
+                if((y[i] != 0) & (y[i] !=1)){
+                    throw std::invalid_argument("When mode is classification y must consist of 1s and 0s only.");
+                }
+            }
+        }
+    }
     if (n <= 0){
-        std::cout << "n must be a positive integer" << std::endl;
-        return;
+        throw std::invalid_argument("n must be a positive integer");        
     }else{
         if (X.size() <= 0){
-            std::cout << "X must contain data" << std::endl;
-            return;                    
+            throw std::invalid_argument("X must contain data");
         }else{
             if (X.size() % n > 0){
-                std::cout << "n must be a positive integer" << std::endl;
-                return;
+                throw std::invalid_argument("n must be a positive integer");               
             }else{
                 p = X.size() / n;
             }            
@@ -137,8 +143,21 @@ std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
         }
         prediction_i /= k;
         predictions[i] = prediction_i;
-    }     
-    return predictions;
+    }
+
+    if (mode=="classification"){
+        std::vector<double> predicted_probabilities = predictions;
+        for (int i{0}; i<n_X_predict; i++){
+            if (predicted_probabilities[i]>=0.5){
+                predictions[i] = 1.0;
+            }else{
+                predictions[i] = 0.0;
+            }            
+        }
+        return predictions;
+    }else{
+        return predictions;
+    }
 }
 
 // Now let's think about how we can do this

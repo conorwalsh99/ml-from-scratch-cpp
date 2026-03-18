@@ -12,8 +12,8 @@ int main(){
     std::vector<double> y_train {
         10.0,
         100.0
-    };
-    KNN knn_regressor = KNN(X_train, y_train, 1);
+    };    
+    KNN knn_regressor = KNN(X_train, y_train, 1, "regression");
     std::vector<double> X_predict {
         1.0, 1.0, // should find first point as nearest neighbour -> prediction should be 10.0
         1.0, 2.0, // should find first point as nearest neighbour -> prediction should be 10.0
@@ -25,6 +25,11 @@ int main(){
     std::cout << "Second prediction (should be 10): " << y_predict[1] << std::endl;
     std::cout << "Third prediction (should be 100): " << y_predict[2] << std::endl;
 
+    KNN knn_classifier = KNN(X_train, std::vector<double> {0, 1}, 1, "classification");
+    y_predict = knn_classifier.predict(X_predict);
+    std::cout << "First prediction (should be 0): " << y_predict[0] << std::endl;
+    std::cout << "Second prediction (should be 0): " << y_predict[1] << std::endl;
+    std::cout << "Third prediction (should be 1): " << y_predict[2] << std::endl;
 
     return 0;
 }
