@@ -17,9 +17,9 @@ class KNN{
     public:
         KNN() = default;
         KNN(
-            const std::vector<double>& X_arg,
-            const std::vector<double>& y_arg,
-            const int k_arg,
+            const std::vector<double>& X_input,
+            const std::vector<double>& y_input,
+            const int k_input,
             const std::string mode 
         );
 
