@@ -65,7 +65,7 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
     std::vector<double> neighbour_distances(n, -1);
 
     // Loop through neighbours (training data)
-    for (int i {0}; i < n; i++){// here is our bug. When we used n*p as lenght of lop, this is element-ise indexing rather than point-wise
+    for (int i {0}; i < n; i++){
         // Isolate given point
         int start_index = i*p;
         std::vector<double> neighbour(p, -1);
@@ -79,20 +79,19 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
 
     // Create vector to store nearest neighbours -> size k
     std::vector<int> nearest_neighbours(k, -1);
-
-    // Loop through distances k times:
+    
+    // Loop through distances vector k times to find k nearest neighbours:
         // find smallest distance each time (that of next nearest neighbour)
         // get corresponding index
         // insert the index into nearest_neighbours vector at given position
-        // Loop through the neighbours
-        // Each time, check if neighbour is a valid candidate (not already in nearest_neighbours)
+    // Prerequisites -> create placeholders next_smallest_distance, next_nearest_neighbour_index
+    
+    // In more detail, loop through distances vector k times:
+        // Each time, check if neighbour is a valid candidate to be considered next nearest neighbour (not already in nearest_neighbours)
         // If so, compare distance to next_smallest_distance
         // If smaller, set next_smallest_distance to this distance and next_nearest_index to this neighbour
-        // Add end of loop, add next_nearest_index to nearest_neighbours vector, and invalidate it from the next round of checks (by setting value in neighbour_distances to -1) 
-        // at the beginning of each outer loop, add the nearest neighbour from the previous inner loop to the nearest_neighbours vector
-        // and set its distance to -1 in neighbour_distances to invalidate it from future checks
-        // start outer loop index from -1 so that we have the nearest neighbour to add to nearest_neighbours vector by the time the iter is at 0
-        // similarly, end outer loop at k+1 to allow final neighbour from final inner loop to be added to nearest_neighbours 
+        // At end of loop, add next_nearest_index to nearest_neighbours vector, and invalidate it from the next round of checks (by setting value in neighbour_distances to -1) 
+        // Reset next_smallest_distance to placeholder value
     int next_nearest_index {-1}; 
     double next_smallest_distance {std::numeric_limits<double>::infinity()};
     for (int nearest_neighbour_position{0}; nearest_neighbour_position < k; nearest_neighbour_position++){
@@ -107,10 +106,10 @@ std::vector<int> KNN::get_neighbours(const std::vector<double>& x) const {
                 }
             }
         }
-        nearest_neighbours[nearest_neighbour_position] = next_nearest_index; // 
+        nearest_neighbours[nearest_neighbour_position] = next_nearest_index;
         neighbour_distances[next_nearest_index] = -1; // invalidate this neighbour from future rounds when checking for next nearest neighbour
-        next_smallest_distance = std::numeric_limits<double>::infinity(); // reset next_smallest_distance
-    }  // END GET_NEIGHBOURS_VECTOR
+        next_smallest_distance = std::numeric_limits<double>::infinity();
+    }
     return nearest_neighbours;
 }
 
@@ -131,8 +130,7 @@ std::vector<double> KNN::predict(const std::vector<double>& X_predict) const {
         std::vector<double> x_i(p, -1); // fill with -1 as dummy data for now         
         for (int j{0}; j < p; j++){
             x_i[j] = X_predict[start_index + j];
-        }        
-        // BEGIN GET_NEIGHBOURS_VECTOR
+        }                
         std::vector<int> nearest_neighbours = get_neighbours(x_i);
         // at this point nearest_neighbours contains the indices of the k nearest neighbours of point i we are looping through             
         // loop through nearest_neighbours and get response variable from y for each neighbour
