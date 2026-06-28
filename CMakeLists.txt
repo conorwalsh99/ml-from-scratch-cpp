@@ -43,6 +43,19 @@ target_link_libraries(supervised
     PUBLIC core
 )
 
+add_library(supervised_optimised
+    src/supervised/neighbours/knn_optimised.cpp
+)
+
+target_include_directories(supervised_optimised
+    PUBLIC
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+target_link_libraries(supervised_optimised
+    PUBLIC core
+)
+
 # -----------------------------
 # Examples
 # -----------------------------
@@ -86,3 +99,16 @@ target_link_libraries(test_knn
 )
 
 add_test(NAME knn_tests COMMAND test_knn)
+
+# KNN optimised tests
+add_executable(test_knn_optimised
+    tests/supervised/neighbours/test_knn_optimised.cpp
+)
+
+target_link_libraries(test_knn_optimised
+    PRIVATE supervised_optimised
+            GTest::gtest
+            GTest::gtest_main
+)
+
+add_test(NAME knn_optimised_tests COMMAND test_knn_optimised)
