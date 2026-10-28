@@ -19,6 +19,7 @@ endif()
 # -----------------------------
 add_library(core
     src/core/distance.cpp
+    src/core/matrix.cpp
 )
 
 target_include_directories(core
@@ -31,6 +32,7 @@ target_include_directories(core
 # -----------------------------
 add_library(supervised
     src/supervised/neighbours/knn.cpp
+    src/supervised/linear_model/linear_discriminant_analysis.cpp
     # add future supervised algorithms here
 )
 
@@ -67,6 +69,14 @@ target_link_libraries(knn_example
     PRIVATE supervised
 )
 
+add_executable(linear_discriminant_analysis_example
+    examples/linear_discriminant_analysis_example.cpp
+)
+
+target_link_libraries(linear_discriminant_analysis_example
+    PRIVATE supervised
+)
+
 # -----------------------------
 # Testing
 # -----------------------------
@@ -86,6 +96,18 @@ target_link_libraries(test_distance
 )
 
 add_test(NAME distance_tests COMMAND test_distance)
+
+add_executable(test_matrix
+    tests/core/test_matrix.cpp
+)
+
+target_link_libraries(test_matrix
+    PRIVATE core
+            GTest::gtest
+            GTest::gtest_main
+)
+
+add_test(NAME matrix_tests COMMAND test_matrix)
 
 # KNN tests
 add_executable(test_knn
@@ -112,3 +134,15 @@ target_link_libraries(test_knn_optimised
 )
 
 add_test(NAME knn_optimised_tests COMMAND test_knn_optimised)
+
+add_executable(test_linear_discriminant_analysis
+    tests/supervised/linear_model/test_linear_discriminant_analysis.cpp
+)
+
+target_link_libraries(test_linear_discriminant_analysis
+    PRIVATE supervised
+            GTest::gtest
+            GTest::gtest_main
+)
+
+add_test(NAME linear_discriminant_analysis_tests COMMAND test_linear_discriminant_analysis)

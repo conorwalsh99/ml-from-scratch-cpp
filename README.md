@@ -5,6 +5,7 @@ Fundamental machine learning algorithms implemented from scratch, written in C++
 ## Algorithms
 
 - [x] K-nearest neighbours (KNN)
+- [x] Linear discriminant analysis (LDA)
 - [ ] Linear regression
 - [ ] Decision tree
 - [ ] Multi-layer perceptron (MLP)
