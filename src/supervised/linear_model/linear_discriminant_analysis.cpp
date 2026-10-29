@@ -6,6 +6,10 @@
 #include <stdexcept>
 
 namespace {
+/**
+ * Copy the zero-based row into a vector; an empty matrix yields an empty vector.
+ * @throws std::out_of_range if row is out of range and the matrix has columns.
+ */
 std::vector<double> row_at(const Matrix& matrix, std::size_t row) {
     std::vector<double> result(matrix.columns());
     for (std::size_t column = 0; column < matrix.columns(); ++column) {
@@ -14,6 +18,10 @@ std::vector<double> row_at(const Matrix& matrix, std::size_t row) {
     return result;
 }
 
+/**
+ * Return the dot product over left.size() elements, or zero if left is empty.
+ * Requires right to contain at least left.size() elements.
+ */
 double dot_product(const std::vector<double>& left, const std::vector<double>& right) {
     double result = 0.0;
     for (std::size_t index = 0; index < left.size(); ++index) {

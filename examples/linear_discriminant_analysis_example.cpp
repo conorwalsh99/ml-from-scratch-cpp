@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+/** Fit a binary LDA classifier and print the predicted class position for a sample. */
 int main() {
     Matrix training_features(6, 2);
     const std::vector<double> values = {-2.0, -1.0, -1.5, -1.2, -2.1, -0.8,
